@@ -8,22 +8,28 @@ export class Common extends Observable {
 
   constructor() {
     super();
+    let self = this;
     // this.message = Utils.SUCCESS_MSG();
-      this.greet();
+      setTimeout(function() {
+          self.greet();
+      }, 1000);
+
   }
 
   public greet() {
 
           console.log('----------------------');
-          console.log(StartAppSDK);
+          console.log('start app sdk');
           console.log('----------------------');
           StartAppSDK.init(app.android.foregroundActivity, "200315049", true);
 
           // Get the Main relative layout of the entire activity
+          var utils = require("utils/utils");
+          var context = utils.ad.getApplicationContext(); // get a reference to the application context in Android
 
-          let mainLayout = new android.widget.RelativeLayout(app.android.foregroundActivity);
+        let mainLayout = new android.widget.RelativeLayout(app.android.foregroundActivity);
           // Define StartApp Banner
-          let startAppBanner = new com.startapp.android.publish.ads.banner.Banner(app.android.context);
+          let startAppBanner = new com.startapp.android.publish.ads.banner.Banner(context);
           let bannerParameters =
               new android.widget.RelativeLayout.LayoutParams(
                   android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -33,10 +39,6 @@ export class Common extends Observable {
           // Add to main Layout
           mainLayout.addView(startAppBanner, bannerParameters);
           let msg = `Your plugin is working on ${app.android ? 'Android' : 'iOS'}.`;
-          setTimeout(() => {
-              //this.StarAppSDK.Init(app.android.foregroundActivity, "200315049", true);
-              dialogs.alert(`${msg} For real. It's really working J :)`).then(() => console.log(`Dialog closed.`));
-          }, 2000);
         return msg;
   }
 }

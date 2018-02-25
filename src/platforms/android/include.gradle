@@ -1,4 +1,4 @@
-/* Include.gradle configuration: http://docs.nativescript.org/plugins/plugins#includegradle-specification */
+/* Include.gradle configuration: https://docs.nativescript.org/plugins/plugins#includegradle-specification */
 
 android {
 	productFlavors {
