@@ -1,6 +1,7 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import * as app from 'tns-core-modules/application';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
+var frame = require("ui/frame");
 declare var com: any;
 const StartAppSDK = com.startapp.android.publish.adsCommon.StartAppSDK;
 export class Common extends Observable {
@@ -27,7 +28,7 @@ export class Common extends Observable {
           var utils = require("utils/utils");
           var context = utils.ad.getApplicationContext(); // get a reference to the application context in Android
 
-        let mainLayout = new android.widget.RelativeLayout(app.android.foregroundActivity);
+            // let mainLayout = new android.widget.RelativeLayout(app.android.foregroundActivity);
           // Define StartApp Banner
           let startAppBanner = new com.startapp.android.publish.ads.banner.Banner(context);
           let bannerParameters =
@@ -35,9 +36,17 @@ export class Common extends Observable {
                   android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT,
                   android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
           bannerParameters.addRule(android.widget.RelativeLayout.CENTER_HORIZONTAL);
+            //bannerParameters.bottomMargin = 0;
           bannerParameters.addRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM);
           // Add to main Layout
-          mainLayout.addView(startAppBanner, bannerParameters);
+          // mainLayout.addView(startAppBanner, bannerParameters);
+          // a Page.loaded event 'frame.topmost()' doesn't resolve to 'undefined'
+          setTimeout(function() {
+              //mainLayout.addView(startAppBanner, bannerParameters);
+              bannerParameters.bottomMargin = 0;
+              bannerParameters.height = 100;
+              frame.topmost().currentPage.android.getParent().addView(startAppBanner, bannerParameters);
+          }, 0);
           let msg = `Your plugin is working on ${app.android ? 'Android' : 'iOS'}.`;
         return msg;
   }
